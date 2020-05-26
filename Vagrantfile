@@ -41,8 +41,7 @@ host_magento_dir = host_vagrant_dir + '/magento2ce'
 
 VAGRANT_API_VERSION = 2
 Vagrant.configure(VAGRANT_API_VERSION) do |config|
-    config.vm.box = "paliarush/magento2.ubuntu"
-    config.vm.box_version = "~> 1.1"
+    config.vm.box = "bento/ubuntu-16.04"
 
     config.vm.provider "virtualbox" do |vb|
         vb.memory = guest_memory
@@ -76,6 +75,10 @@ Vagrant.configure(VAGRANT_API_VERSION) do |config|
         host_vagrant_dir,                             #7
         config_data['environment']['php_version']     #8
     ]
+
+    config.vm.provision "install_environment", type: "shell" do |s|
+        s.path = "/Users/platon/projects/Adobe/Commerce/Magento/magento2-vagrant-for-developers-packer/scripts/vagrant/install_magento_environment.sh"
+    end
 
     config.vm.provision "fix_no_tty", type: "shell", run: "always" do |s|
         s.privileged = false
